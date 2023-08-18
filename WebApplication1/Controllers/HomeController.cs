@@ -18,6 +18,22 @@ namespace WebApplication1.Controllers
         public IActionResult Index()
         {
             ViewModel model = new ViewModel();
+
+            #region 組合類別
+            model.Groups = new List<ViewModelGroup>();
+            List<Group> allGroups = _dbContext.Groups.ToList();
+            foreach (Group item in allGroups)
+            {
+                model.Groups.Add(new ViewModelGroup()
+                {
+                    GroupId = item.GroupId,
+                    GroupName = item.GroupName
+                });
+            }
+
+            #endregion
+
+            #region 組合商品
             model.Products = new List<ViewModelProduct>();
             List<Product> allProducts = _dbContext.Products.ToList();
             foreach (Product product in allProducts)
@@ -35,6 +51,7 @@ namespace WebApplication1.Controllers
                     ImageUrl = product.ImageUrl
                 });
             }
+            #endregion
 
             #region 組合相片圖庫
             model.Galleries = new List<ViewModelGalleries>();
@@ -49,7 +66,6 @@ namespace WebApplication1.Controllers
                     });
             }
             #endregion
-
 
             return View(model);
         }

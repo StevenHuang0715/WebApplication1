@@ -2,9 +2,18 @@
 {
     public class ViewModel
     {
+        public List<ViewModelGroup>? Groups { get; set; }
+
         public List<ViewModelProduct>? Products { get; set; }
 
         public List<ViewModelGalleries>? Galleries { get; set; }
+    }
+
+    public class ViewModelGroup
+    {
+        public int GroupId { get; set; }
+
+        public string? GroupName { get; set; }
     }
 
     public class ViewModelProduct

@@ -44,168 +44,90 @@
         </div>
 
         <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="200">
+            @{
+                int groupIndex = 1;
+                @foreach (ViewModelGroup groupItem in Model.Groups)
+                {
+                    if(groupIndex == 1)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menufood-@groupItem.GroupId" aria-selected="true" role="tab">
+                                <h4>@groupItem.GroupName</h4>
+                            </a>
+                        </li>   
+                    }
+                    else
+                    {
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menufood-@groupItem.GroupId" aria-selected="false" role="tab" tabindex="-1">
+                                <h4>@groupItem.GroupName</h4>
+                            </a>
 
-          <li class="nav-item">
-            <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-starters">
-              <h4>肉粽</h4>
-            </a>
-          </li><!-- End tab nav item -->
-
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-breakfast">
-              <h4>傳統小吃</h4>
-            </a><!-- End tab nav item -->
-
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-lunch">
-              <h4>湯品</h4>
-            </a>
-          </li><!-- End tab nav item -->
+                        </li>
+                    }
+                    groupIndex++;
+                }
+            }
+    
         </ul>
 
         <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
-
-          <div class="tab-pane fade active show" id="menu-starters">
-
-            <div class="tab-header text-center">
-              <p>Menu</p>
-              <h3>肉粽</h3>
-            </div>
-            <div class="row gy-5">
-                @foreach (var item in Model.Products)
+        @{
+            int index = 1;
+            foreach (ViewModelGroup groupItem in Model.Groups)
+            {
+                if(index == 1)
                 {
-                    if (item.GroupId == 1)
-                    {
-	                    <div class="col-lg-6 menu-item">
-		                    <a href="@item.ImageUrl" class="glightbox">
-			                    <img src="@item.ImageUrl" class="menu-img img-fluid" alt=""/>
-		                    </a>
-		                    <h4>@item.Name</h4>
-		                    <p class="ingredients">@item.Desc</p>
-		                    <p class="price">$@item.Price</p>
-	                    </div>
-                    }
+                    <div class="tab-pane fade active show" id="menufood-@groupItem.GroupId">
+                        <div class="tab-header text-center">
+                            <p>Menu</p>
+                            <h3>@groupItem.GroupName</h3>
+                        </div>
+                        <div class="row gy-5">
+                            @foreach (ViewModelProduct productItem in Model.Products)
+                            {
+                                if (productItem.GroupId == groupItem.GroupId)
+                                {
+	                                <div class="col-lg-6 menu-item">
+		                                <a href="@productItem.ImageUrl" class="glightbox">
+			                                <img src="@productItem.ImageUrl" class="menu-img img-fluid" alt=""/>
+		                                </a>
+		                                <h4>@productItem.Name</h4>
+		                                <p class="ingredients">@productItem.Desc</p>
+		                                <p class="price">$@productItem.Price</p>
+	                                </div>
+                                }
+                            }
+                        </div>
+                    </div>
                 }
-            </div>
-
-          </div><!-- End Starter Menu Content -->
-
-          <div class="tab-pane fade" id="menu-breakfast">
-
-            <div class="tab-header text-center">
-              <p>Menu</p>
-              <h3>傳統小吃</h3>
-            </div>
-
-            <div class="row gy-5">
-              <div class="col-lg-6 menu-item">
-                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692108751/Foods/tian.jpg" 
-                class="glightbox"><img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692108751/Foods/tian.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4>甜不辣</h4>
-                <p class="ingredients">
-                  含白蘿蔔，油豆腐，米血，甜不辣，肉羹及魚丸。
-                </p>
-                <p class="price">
-                  $60
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-6 menu-item">
-                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692107068/Foods/meat1.jpg" 
-                class="glightbox"><img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692107068/Foods/meat1.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4>肉圓</h4>
-                <p class="ingredients">
-                  以獨特油燉方式烹煮。
-                </p>
-                <p class="price">
-                  $40
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-6 menu-item">
-                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692107163/Foods/soup5.jpg" class="glightbox">
-                    <img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692107163/Foods/soup5.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4>四神湯冬粉</h4>
-                <p class="ingredients">
-                  四神湯冬粉
-                </p>
-                <p class="price">
-                  $$
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-6 menu-item">
-                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692107160/Foods/soup3.jpg" class="glightbox">
-                    <img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692107160/Foods/soup3.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4>金針肉冬粉</h4>
-                <p class="ingredients">
-                  金針肉冬粉
-                </p>
-                <p class="price">
-                    $$
-                </p>
-              </div><!-- Menu Item -->
-            </div>
-          </div><!-- End Breakfast Menu Content -->
-
-          <div class="tab-pane fade" id="menu-lunch">
-
-            <div class="tab-header text-center">
-              <p>Menu</p>
-              <h3>湯品</h3>
-            </div>
-
-            <div class="row gy-5">
-
-              <div class="col-lg-6 menu-item">
-                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692107166/Foods/soup6.jpg" 
-                class="glightbox"><img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692107166/Foods/soup6.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4>四神湯</h4>
-                <p class="ingredients">
-                  含四神及小腸。
-                </p>
-                <p class="price">
-                  $60
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-6 menu-item">
-                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692107163/Foods/soup4.jpg" class="glightbox">
-                    <img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692107163/Foods/soup4.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4>金針肉湯</h4>
-                <p class="ingredients">
-                  肉為肉羹，湯為大骨高湯非羹湯。
-                </p>
-                <p class="price">
-                  $$
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-6 menu-item">
-                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692107163/Foods/soup1.jpg" class="glightbox">
-                    <img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692107163/Foods/soup1.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4>菜頭魚丸湯</h4>
-                <p class="ingredients">
-                  湯為大骨高湯非羹湯。
-                </p>
-                <p class="price">
-                  $$
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-6 menu-item">
-                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692107160/Foods/soup2.jpg" class="glightbox">
-                    <img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692107160/Foods/soup2.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4>魚丸湯</h4>
-                <p class="ingredients">
-                  湯為大骨高湯非羹湯。
-                </p>
-                <p class="price">
-                  $$
-                </p>
-              </div><!-- Menu Item -->
-            </div>
-          </div><!-- End Lunch Menu Content -->
+                else{
+                    <div class="tab-pane fade" id="menufood-@groupItem.GroupId">
+                        <div class="tab-header text-center">
+                            <p>Menu</p>
+                            <h3>@groupItem.GroupName</h3>
+                        </div>
+                        <div class="row gy-5">
+                            @foreach (ViewModelProduct productItem in Model.Products)
+                            {
+                                if (productItem.GroupId == groupItem.GroupId)
+                                {
+	                                <div class="col-lg-6 menu-item">
+		                                <a href="@productItem.ImageUrl" class="glightbox">
+			                                <img src="@productItem.ImageUrl" class="menu-img img-fluid" alt=""/>
+		                                </a>
+		                                <h4>@productItem.Name</h4>
+		                                <p class="ingredients">@productItem.Desc</p>
+		                                <p class="price">$@productItem.Price</p>
+	                                </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                index++;
+            }
+        }
         </div>
 
       </div>
