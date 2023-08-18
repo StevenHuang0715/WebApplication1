@@ -36,6 +36,20 @@ namespace WebApplication1.Controllers
                 });
             }
 
+            #region 組合相片圖庫
+            model.Galleries = new List<ViewModelGalleries>();
+            List<Gallery> GalList = _dbContext.Galleries.OrderBy(g => g.Order).ToList();
+            foreach (Gallery gallery in GalList)
+            {
+                model.Galleries.Add(
+                    new ViewModelGalleries()
+                    {
+                        Orders = gallery.Order,
+                        ImageUrl = gallery.ImageUrl
+                    });
+            }
+            #endregion
+
 
             return View(model);
         }

@@ -2,11 +2,9 @@
 {
     public class ViewModel
     {
-
         public List<ViewModelProduct>? Products { get; set; }
 
-   
-
+        public List<ViewModelGalleries>? Galleries { get; set; }
     }
 
     public class ViewModelProduct
@@ -24,6 +22,13 @@
         public int? Price { get; set; }
 
         public int? Stock { get; set; }
+
+        public string? ImageUrl { get; set; }
+    }
+
+    public class ViewModelGalleries
+    {
+        public int? Orders { get; set; }
 
         public string? ImageUrl { get; set; }
     }
