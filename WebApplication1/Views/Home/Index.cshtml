@@ -1,0 +1,345 @@
+﻿@model WebApplication1.Models.ViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<body>
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero d-flex align-items-center section-bg">
+    <div class="container">
+      <div class="row justify-content-between gy-5">
+        <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center align-items-center align-items-lg-start text-center text-lg-start">
+          <h2 data-aos="fade-up">金田肉粽專賣店</h2>
+          <p data-aos="fade-up" data-aos-delay="100">二十年的好味道，以道地的南北粽，創造出一番名號。我們所用的食材皆使用安全衛生的台灣到地食材，店裡的紅蔥頭也是自製的，美好的味道讓許多已經搬離虎林街的顧客，都會特地坐車回來再享受我們的手藝，並且曾受非凡電視台報導宣傳，是台灣不可不吃的店家之一。</p>
+
+        </div>
+        <div class="col-lg-5 order-1 order-lg-2 text-center text-lg-start">
+          <img src="https://res.cloudinary.com/foodwebsite/image/upload/v1661532549/all_qnuahr.jpg" class="img-fluid" alt="" data-aos="zoom-out" data-aos-delay="300">
+        </div>
+      </div>
+    </div>
+  </section><!-- End Hero Section -->
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+    
+    <!-- End About Section -->
+
+    <!-- ======= Why Us Section ======= -->
+
+    <!-- End Why Us Section -->
+
+    <!-- ======= Stats Counter Section ======= -->
+    
+    <!-- End Stats Counter Section -->
+
+    <!-- ======= Menu Section ======= -->
+    <section id="menu" class="menu">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <h2>Our Menu</h2>
+          <p>Check Our <span>Yummy Menu</span></p>
+        </div>
+
+        <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="200">
+
+          <li class="nav-item">
+            <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-starters">
+              <h4>肉粽</h4>
+            </a>
+          </li><!-- End tab nav item -->
+
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-breakfast">
+              <h4>傳統小吃</h4>
+            </a><!-- End tab nav item -->
+
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-lunch">
+              <h4>湯品</h4>
+            </a>
+          </li><!-- End tab nav item -->
+        </ul>
+
+        <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
+
+          <div class="tab-pane fade active show" id="menu-starters">
+
+            <div class="tab-header text-center">
+              <p>Menu</p>
+              <h3>肉粽</h3>
+            </div>
+            <div class="row gy-5">
+                @foreach (var item in Model.Products)
+                {
+                    if (item.GroupId == 1)
+                    {
+	                    <div class="col-lg-6 menu-item">
+		                    <a href="@item.ImageUrl" class="glightbox">
+			                    <img src="@item.ImageUrl" class="menu-img img-fluid" alt=""/>
+		                    </a>
+		                    <h4>@item.Name</h4>
+		                    <p class="ingredients">@item.Desc</p>
+		                    <p class="price">$@item.Price</p>
+	                    </div>
+                    }
+                }
+            </div>
+
+          </div><!-- End Starter Menu Content -->
+
+          <div class="tab-pane fade" id="menu-breakfast">
+
+            <div class="tab-header text-center">
+              <p>Menu</p>
+              <h3>傳統小吃</h3>
+            </div>
+
+            <div class="row gy-5">
+              <div class="col-lg-6 menu-item">
+                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692108751/Foods/tian.jpg" 
+                class="glightbox"><img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692108751/Foods/tian.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>甜不辣</h4>
+                <p class="ingredients">
+                  含白蘿蔔，油豆腐，米血，甜不辣，肉羹及魚丸。
+                </p>
+                <p class="price">
+                  $60
+                </p>
+              </div><!-- Menu Item -->
+
+              <div class="col-lg-6 menu-item">
+                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692107068/Foods/meat1.jpg" 
+                class="glightbox"><img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692107068/Foods/meat1.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>肉圓</h4>
+                <p class="ingredients">
+                  以獨特油燉方式烹煮。
+                </p>
+                <p class="price">
+                  $40
+                </p>
+              </div><!-- Menu Item -->
+
+              <div class="col-lg-6 menu-item">
+                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692107163/Foods/soup5.jpg" class="glightbox">
+                    <img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692107163/Foods/soup5.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>四神湯冬粉</h4>
+                <p class="ingredients">
+                  四神湯冬粉
+                </p>
+                <p class="price">
+                  $$
+                </p>
+              </div><!-- Menu Item -->
+
+              <div class="col-lg-6 menu-item">
+                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692107160/Foods/soup3.jpg" class="glightbox">
+                    <img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692107160/Foods/soup3.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>金針肉冬粉</h4>
+                <p class="ingredients">
+                  金針肉冬粉
+                </p>
+                <p class="price">
+                    $$
+                </p>
+              </div><!-- Menu Item -->
+            </div>
+          </div><!-- End Breakfast Menu Content -->
+
+          <div class="tab-pane fade" id="menu-lunch">
+
+            <div class="tab-header text-center">
+              <p>Menu</p>
+              <h3>湯品</h3>
+            </div>
+
+            <div class="row gy-5">
+
+              <div class="col-lg-6 menu-item">
+                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692107166/Foods/soup6.jpg" 
+                class="glightbox"><img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692107166/Foods/soup6.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>四神湯</h4>
+                <p class="ingredients">
+                  含四神及小腸。
+                </p>
+                <p class="price">
+                  $60
+                </p>
+              </div><!-- Menu Item -->
+
+              <div class="col-lg-6 menu-item">
+                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692107163/Foods/soup4.jpg" class="glightbox">
+                    <img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692107163/Foods/soup4.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>金針肉湯</h4>
+                <p class="ingredients">
+                  肉為肉羹，湯為大骨高湯非羹湯。
+                </p>
+                <p class="price">
+                  $$
+                </p>
+              </div><!-- Menu Item -->
+
+              <div class="col-lg-6 menu-item">
+                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692107163/Foods/soup1.jpg" class="glightbox">
+                    <img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692107163/Foods/soup1.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>菜頭魚丸湯</h4>
+                <p class="ingredients">
+                  湯為大骨高湯非羹湯。
+                </p>
+                <p class="price">
+                  $$
+                </p>
+              </div><!-- Menu Item -->
+
+              <div class="col-lg-6 menu-item">
+                <a href="https://res.cloudinary.com/foodwebsite/image/upload/v1692107160/Foods/soup2.jpg" class="glightbox">
+                    <img src="https://res.cloudinary.com/foodwebsite/image/upload/v1692107160/Foods/soup2.jpg" class="menu-img img-fluid" alt=""></a>
+                <h4>魚丸湯</h4>
+                <p class="ingredients">
+                  湯為大骨高湯非羹湯。
+                </p>
+                <p class="price">
+                  $$
+                </p>
+              </div><!-- Menu Item -->
+            </div>
+          </div><!-- End Lunch Menu Content -->
+        </div>
+
+      </div>
+    </section><!-- End Menu Section -->
+
+    <!-- ======= Testimonials Section ======= -->
+    
+    <!-- End Testimonials Section -->
+
+    <!-- ======= Events Section ======= -->
+    
+    <!-- End Events Section -->
+
+    <!-- ======= Chefs Section ======= -->
+    <section id="chefs" class="chefs section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <h2>Chefs</h2>
+          <p>Our <span>Proffesional</span> Chefs</p>
+        </div>
+
+        <div class="row gy-4">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+          </div>
+          <!-- End Chefs Member -->
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
+            <div class="chef-member">
+              <div class="member-img">
+                <img src="~/img/chefs/chefs-3.jpg" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>王老闆</h4>
+                <span>大廚</span>
+                <p>帥氣又年輕的老闆</p>
+              </div>
+            </div>
+          </div><!-- End Chefs Member -->
+
+        </div>
+
+      </div>
+    </section><!-- End Chefs Section -->
+
+    <!-- ======= Book A Table Section ======= -->
+
+    <!-- End Book A Table Section -->
+
+    <!-- ======= Gallery Section ======= -->
+    <section id="gallery" class="gallery section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <h2>gallery</h2>
+          <p>Check <span>Our Gallery</span></p>
+        </div>
+
+        <div class="gallery-slider swiper">
+          <div class="swiper-wrapper align-items-center">
+            <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery" href="~/img/gallery/gallery-1.jpg"><img src="~/img/gallery/gallery-1.jpg" class="img-fluid" alt=""></a></div>
+            <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery" href="~/img/gallery/gallery-2.jpg"><img src="~/img/gallery/gallery-2.jpg" class="img-fluid" alt=""></a></div>
+            <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery" href="~/img/gallery/gallery-3.jpg"><img src="~/img/gallery/gallery-3.jpg" class="img-fluid" alt=""></a></div>
+            <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery" href="~/img/gallery/gallery-4.jpg"><img src="~/img/gallery/gallery-4.jpg" class="img-fluid" alt=""></a></div>
+            <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery" href="~/img/gallery/gallery-5.jpg"><img src="~/img/gallery/gallery-5.jpg" class="img-fluid" alt=""></a></div>
+            <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery" href="~/img/gallery/gallery-6.jpg"><img src="~/img/gallery/gallery-6.jpg" class="img-fluid" alt=""></a></div>
+            <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery" href="~/img/gallery/gallery-7.jpg"><img src="~/img/gallery/gallery-7.jpg" class="img-fluid" alt=""></a></div>
+            <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery" href="~/img/gallery/gallery-8.jpg"><img src="~/img/gallery/gallery-8.jpg" class="img-fluid" alt=""></a></div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+
+      </div>
+    </section><!-- End Gallery Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <h2>Contact</h2>
+          <p>Need Help? <span>Contact Us</span></p>
+        </div>
+
+        <div class="mb-3">
+          <iframe style="border:0; width: 100%; height: 350px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.8345247633615!2d121.57395717496294!3d25.039689138063267!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442aba3fc824311%3A0x6eca0a85519a6f99!2zMTEw5Y-w5YyX5biC5L-h576p5Y2A5b-g5a2d5p2x6Lev5LqU5q61Mzcy5be3MjflvIQ3Ny0y6Jmf!5e0!3m2!1szh-TW!2stw!4v1692109973764!5m2!1szh-TW!2stw" frameborder="0" allowfullscreen></iframe>
+        </div><!-- End Google Maps -->
+        <div class="row gy-4">
+
+          <div class="col-md-4">
+            <div class="info-item  d-flex align-items-center">
+              <i class="icon bi bi-map flex-shrink-0"></i>
+              <div>
+                <h3>地址</h3>
+                <p>台北市信義區忠孝東路五段372巷27弄77-2號</p>
+              </div>
+            </div>
+          </div>
+          <!-- End Info Item -->
+          <div class="col-md-4">
+            <div class="info-item  d-flex align-items-center">
+              <i class="icon bi bi-telephone flex-shrink-0"></i>
+              <div>
+                <h3>電話</h3>
+                <p>(02) 8789-2510</p>
+              </div>
+            </div>
+          </div><!-- End Info Item -->
+          <div class="col-md-4">
+            <div class="info-item  d-flex align-items-center">
+              <i class="icon bi bi-share flex-shrink-0"></i>
+              <div>
+                <h3>營業時間</h3>
+                <div><strong> 周一至周五：</strong> 11:30 - 20:30
+                </div>
+                <div>
+                  <strong> 周六、日：</strong> 休息
+                </div>
+              </div>
+            </div>
+          </div><!-- End Info Item -->
+
+        </div>
+
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+</body>
+
