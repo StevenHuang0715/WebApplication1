@@ -1,0 +1,207 @@
+﻿
+@model WebApplication1.Models.EditProductModel
+@{
+    ViewData["Title"] = "Edit Product Page";
+    Layout = "_LayoutBackstage";
+}
+
+
+@section Styles{
+	<style>
+		/*等待中遮罩樣式*/
+		div.loadingdiv {
+			height: 100%;
+			width: 100%;
+			/*100%覆蓋網頁內容, 避免user在loading時進行其他操作*/
+			position: fixed;
+			z-index: 99999;
+			/*須大於網頁內容*/
+			top: 0;
+			left: 0;
+			display: block;
+			background: #000;
+			opacity: 0.6;
+			text-align: center;
+		}
+
+			div.loadingdiv img {
+				position: relative;
+				vertical-align: middle;
+				text-align: center;
+				margin: 0 auto;
+				margin-top: 50vh;
+			}
+	</style>
+}
+
+@section Scripts{
+	<script type="text/javascript">
+		$(function () {
+			var src = "https://res.cloudinary.com/foodwebsite/image/upload/v1661958526/noImage_myeez6.jpg"; //替換的圖片
+			if ('@Model.ImageUrl' == '')
+			{
+				document.getElementById('image1_@Model.Id').src = src;
+			}
+		})
+//點按修改鍵觸發
+			$("#EditProduct").click(function () {
+				//TODO：檢核欄位
+
+				var formData = new FormData($("#postForm")[0]);
+
+				$.ajax({
+					beforeSend: function () {
+						$('#loading').css("display", "");
+					},
+					type: "POST",
+                    url: '@Url.Action("EditProductPage02", "BackStage")',
+					data: formData,
+					async: true,
+					cache: false,
+                    processData: false,
+					contentType: false,
+					success: function () {
+						$('#loading').css("display", "none");
+						alert("更新商品成功");
+						var form = document.getElementById('postForm');
+						form.submit();
+                    },
+					error: function (jqXHR, textStatus, errorThrown) {
+						console.log("FAIL: " + errorThrown);
+						alert('出錯');
+					},
+                })
+                return false;
+			})
+
+		function nofind() {
+			var img = event.srcElement;
+			img.src = "https://res.cloudinary.com/foodwebsite/image/upload/v1661046639/icsopr6ywly533sl1gus.jpg"; //替換的圖片
+			img.onerror = null; //控制不要一直觸發錯誤
+		}
+	</script>
+}
+
+<h2>EditProductPage</h2>
+<main id="main" class="main" aa="editProduct">
+		@* 等待中圖片 *@
+		<div class="loadingdiv" id="loading" style="display: none;padding: 15% 0;">
+			<div style="color: yellow;font-size: 35px;">更新商品中...</div>
+			<img src="https://res.cloudinary.com/foodwebsite/image/upload/v1661958361/load_xa8m4u.gif" style="margin-top: 0px;" />
+		</div>
+		<div class="pagetitle">
+			<h1>修改商品</h1>
+			<nav>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+					<li class="breadcrumb-item">Forms</li>
+					<li class="breadcrumb-item active">Elements</li>
+				</ol>
+			</nav>
+		</div><!-- End Page Title -->
+
+		<section class="section">
+			<div class="row">
+				<div class="card">
+					<div class="card-body" id="ProductContent">
+						<h5 class="card-title">商品資訊</h5>
+						@using (Html.BeginForm("ProductListPage", "BackStage"
+							,FormMethod.Post, new { id = "postForm", enctype = "multipart/form-data" }))
+						{
+							@*左半邊區塊*@
+							@Html.HiddenFor(p => p.Id)
+							<div class="col-lg-12">
+								<div class="row mb-3">
+									<label for="inputText" class="col-sm-2 col-form-label">
+										@*商品名稱*@
+										@Html.DisplayNameFor(m => m.Name)
+									</label>
+									<div class="col-sm-10">
+										@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label class="col-sm-2 col-form-label">
+										@*商品種類*@
+										@Html.DisplayNameFor(m => m.GroupId)
+									</label>
+									<div class="col-sm-10">
+										@Html.DropDownListFor(m => m.GroupId, Model.Groups, "請選擇種類", new { @class = "form-select" })
+									</div>
+								</div>
+								<div class="row">
+									<label for="inputNumber" class="col-sm-2 col-form-label">
+										@*定價*@
+										@Html.DisplayNameFor(m => m.Price)
+									</label>
+									<div class="col-sm-10">
+										<div class="input-group mb-3">
+											<span class="input-group-text">$</span>
+											@Html.TextBoxFor(m => m.Price, new { @class = "form-control", @type = "number" })
+										</div>
+									</div>
+
+								</div>
+								<div class="row mb-3">
+									<label for="inputNumber" class="col-sm-2 col-form-label">
+										@*庫存*@
+										@Html.DisplayNameFor(m => m.Stock)
+									</label>
+									<div class="col-sm-10">
+										@Html.TextBoxFor(m => m.Stock, new { @class = "form-control", @type = "number" })
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="inputNumber" class="col-sm-2 col-form-label">
+										@*商品圖片*@
+										商品圖片
+									</label>
+									<div class="col-sm-10">
+										<table style="width:100%">
+											<thead>
+												<tr>
+													<td>
+														<img id="image_@Model.Id" src="@Model.ImageUrl" onerror="nofind()" style="max-width:300px" />
+														@Html.HiddenFor(p => p.ImageUrl)
+													</td>
+												</tr>
+												<tr>
+													<td>
+														@Html.TextBox("Image", "", new { @class = "form-control", type = "file" })
+													</td>
+												</tr>
+											</thead>
+										</table>
+
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="inputNumber" class="col-sm-2 col-form-label">
+										@*商品描述*@
+										商品描述
+									</label>
+									<div class="col-sm-10">
+										@Html.TextAreaFor(m => m.Desc, new { @class = "form-control", @rows = "5" })
+									</div>
+								</div>
+							</div>
+
+							@*按鈕*@
+							<div class="col-sm-12" style="text-align: center; ">
+								<input id="EditProduct" type="submit" class="btn btn-primary" value="修改" />
+								<button type="submit" class="btn btn-primary" id="cancel">取消</button>
+								<button type="submit" class="btn btn-primary">清除</button>
+							</div>
+						}
+
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+		<script type="text/javascript">
+
+		</script>
+	</main>
