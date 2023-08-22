@@ -5,18 +5,11 @@
 }
 @section Scripts{
 	<script type="text/javascript">
-
-		$(function(){
-			alert('1');
-		
-		});
-
 		function Edit(prod) {
 			var form = document.getElementById('form0');
 			form.action = '/BackStage/EditProduct';
 			var id = prod.value;
 			$('#ProdId').val(id);
-			debugger;
 			return true;
 		}
 
@@ -69,7 +62,6 @@
 											<th scope="col">價格</th>
 											<th scope="col">庫存</th>
 											<th scope="col">功能鍵</th>
-											@*<th scope="col">商品描述</th>*@
 										</tr>
 									</thead>
 									<tbody>

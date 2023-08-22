@@ -48,8 +48,9 @@ namespace WebApplication1.Controllers
                     GroupName = group?.GroupName,
                     Price = product.Price,
                     Stock = product.Stock,
-                    ImageUrl = product.ImageUrl
-                });
+                    ImageUrl = product.ImageUrl,
+                    ImageBase64 = product.Image == null ? "" : "data:image/png;base64," + Convert.ToBase64String(product.Image)
+                }); ;
             }
             #endregion
 

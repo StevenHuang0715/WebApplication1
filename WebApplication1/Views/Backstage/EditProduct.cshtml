@@ -33,46 +33,53 @@
 			}
 	</style>
 }
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 
 @section Scripts{
 	<script type="text/javascript">
 		$(function () {
 			var src = "https://res.cloudinary.com/foodwebsite/image/upload/v1661958526/noImage_myeez6.jpg"; //替換的圖片
-			if ('@Model.ImageUrl' == '')
+			if ('@Model.ImageBase64' == '')
 			{
-				document.getElementById('image1_@Model.Id').src = src;
+				document.getElementById('image_@Model.Id').src = src;
 			}
+
+			$('#myimg').on('change', function (e) {
+				const file = this.files[0];
+				const objectURL = URL.createObjectURL(file);    // 使用 createObjectURL 產生圖片url
+				$('#preview').attr('src', objectURL);
+			});
 		})
-//點按修改鍵觸發
-			$("#EditProduct").click(function () {
-				//TODO：檢核欄位
+		//點按修改鍵觸發
+		$("#EditProduct").click(function () {
+			//TODO：檢核欄位
 
-				var formData = new FormData($("#postForm")[0]);
+			var formData = new FormData($("#postForm")[0]);
 
-				$.ajax({
-					beforeSend: function () {
-						$('#loading').css("display", "");
-					},
-					type: "POST",
-                    url: '@Url.Action("EditProductPage02", "BackStage")',
-					data: formData,
-					async: true,
-					cache: false,
-                    processData: false,
-					contentType: false,
-					success: function () {
-						$('#loading').css("display", "none");
-						alert("更新商品成功");
-						var form = document.getElementById('postForm');
-						form.submit();
-                    },
-					error: function (jqXHR, textStatus, errorThrown) {
-						console.log("FAIL: " + errorThrown);
-						alert('出錯');
-					},
-                })
-                return false;
-			})
+			$.ajax({
+				beforeSend: function () {
+					$('#loading').css("display", "");
+				},
+				type: "POST",
+                url: '@Url.Action("EditProductPage02", "BackStage")',
+				data: formData,
+				async: true,
+				cache: false,
+                processData: false,
+				contentType: false,
+				success: function () {
+					$('#loading').css("display", "none");
+					alert("更新商品成功");
+					var form = document.getElementById('postForm');
+					form.submit();
+                },
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.log("FAIL: " + errorThrown);
+					alert('出錯');
+				},
+            })
+            return false;
+		})
 
 		function nofind() {
 			var img = event.srcElement;
@@ -105,7 +112,7 @@
 				<div class="card">
 					<div class="card-body" id="ProductContent">
 						<h5 class="card-title">商品資訊</h5>
-						@using (Html.BeginForm("ProductListPage", "BackStage"
+						@using (Html.BeginForm("ProductList", "BackStage"
 							,FormMethod.Post, new { id = "postForm", enctype = "multipart/form-data" }))
 						{
 							@*左半邊區塊*@
@@ -153,7 +160,7 @@
 									</div>
 								</div>
 								<div class="row mb-3">
-									<label for="inputNumber" class="col-sm-2 col-form-label">
+									<label for="myimg" class="col-sm-2 col-form-label">
 										@*商品圖片*@
 										商品圖片
 									</label>
@@ -162,18 +169,18 @@
 											<thead>
 												<tr>
 													<td>
-														<img id="image_@Model.Id" src="@Model.ImageUrl" onerror="nofind()" style="max-width:300px" />
+														<img id="image_@Model.Id" src="@Model.ImageBase64" onerror="nofind()" style="max-width:300px" />
 														@Html.HiddenFor(p => p.ImageUrl)
+														<img id="preview" style="max-height:200px;" src="@ViewBag.Image" />
 													</td>
 												</tr>
 												<tr>
 													<td>
-														@Html.TextBox("Image", "", new { @class = "form-control", type = "file" })
+														@Html.TextBox("myimg", "", new { @class = "form-control", type = "file" })
 													</td>
 												</tr>
 											</thead>
 										</table>
-
 									</div>
 								</div>
 								<div class="row mb-3">

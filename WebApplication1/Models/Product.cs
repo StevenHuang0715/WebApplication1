@@ -18,4 +18,6 @@ public partial class Product
     public int? Stock { get; set; }
 
     public string? ImageUrl { get; set; }
+
+    public byte[]? Image { get; set; }
 }

@@ -18,6 +18,8 @@ namespace WebApplication1.Models
 
         public string? ImageUrl { get; set; }
 
+        public string ImageBase64 { get; set; }
+
         public List<SelectListItem>? Groups { get; set; }
     }
 }

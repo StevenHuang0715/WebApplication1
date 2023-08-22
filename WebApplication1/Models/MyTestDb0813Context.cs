@@ -43,6 +43,7 @@ public partial class MyTestDb0813Context : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__Products__3214EC07B9A4A55D");
 
+            entity.Property(e => e.Image).HasColumnType("image");
             entity.Property(e => e.ImageUrl).HasMaxLength(200);
             entity.Property(e => e.Name).HasMaxLength(20);
         });
