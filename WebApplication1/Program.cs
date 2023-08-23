@@ -7,8 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<MyTestDb0813Context>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("MyTestDB0813")));
+builder.Services.AddDbContext<YummyDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("YummyDb")));
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
 {

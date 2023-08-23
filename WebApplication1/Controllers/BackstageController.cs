@@ -21,9 +21,9 @@ namespace WebApplication1.Controllers
     public class BackstageController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly MyTestDb0813Context _dbContext;
+        private readonly YummyDbContext _dbContext;
 
-        public BackstageController(ILogger<HomeController> logger, MyTestDb0813Context dbContext)
+        public BackstageController(ILogger<HomeController> logger, YummyDbContext dbContext)
         {
             _logger = logger;
             _dbContext = dbContext;
@@ -83,12 +83,6 @@ namespace WebApplication1.Controllers
                 });
             }
 
-            #region 圖片處理
-            
-            model.ImageBase64 = product.Image == null ? 
-                "" : "data:image/png;base64," + Convert.ToBase64String(product.Image);
-            #endregion
-
             return View(model);
         }
 
@@ -98,27 +92,17 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                string imageUrl = "";
                 Product updateProd = new()
                 {
                     Id = Model.Id,
                     Name = Model.Name,
                     Desc = Model.Desc,
                     GroupId = Model.GroupId,
-                    ImageUrl = imageUrl,
                     Price = Model.Price,
-                    Stock = Model.Stock
+                    Stock = Model.Stock,
+                    ImageUrl = Model.ImageUrl
                 };
 
-                if (myimg != null)
-                {
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        myimg.CopyTo(ms);
-                        updateProd.Image = ms.ToArray();
-                    }
-
-                }
                 _dbContext.Products.Update(updateProd);
                 _dbContext.SaveChanges();
                 return RedirectToAction("ProductList");
@@ -179,7 +163,7 @@ namespace WebApplication1.Controllers
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return View();
+            return View("LoginPage1");
         }
 
 
@@ -188,4 +172,4 @@ namespace WebApplication1.Controllers
 }
 
 //更新資料庫指令：
-//Scaffold-DbContext "Server=MyTestDB0813.mssql.somee.com;Database=MyTestDB0813;User ID=steven35741_SQLLogin_1;Password=91s79tpezy;TrustServerCertificate=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Force
+//Scaffold-DbContext "Server=YummyDb.mssql.somee.com;Database=YummyDb;User ID=steven35741_SQLLogin_1;Password=91s79tpezy;TrustServerCertificate=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Force

@@ -33,8 +33,6 @@
         public int? Stock { get; set; }
 
         public string? ImageUrl { get; set; }
-
-        public string ImageBase64 { get; set; }
     }
 
     public class ViewModelGalleries

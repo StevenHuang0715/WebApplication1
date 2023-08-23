@@ -7,9 +7,9 @@ namespace WebApplication1.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly MyTestDb0813Context _dbContext;
+        private readonly YummyDbContext _dbContext;
        
-        public HomeController(ILogger<HomeController> logger, MyTestDb0813Context dbContext)
+        public HomeController(ILogger<HomeController> logger, YummyDbContext dbContext)
         {
             _logger = logger;
             _dbContext = dbContext;
@@ -49,7 +49,6 @@ namespace WebApplication1.Controllers
                     Price = product.Price,
                     Stock = product.Stock,
                     ImageUrl = product.ImageUrl,
-                    ImageBase64 = product.Image == null ? "" : "data:image/png;base64," + Convert.ToBase64String(product.Image)
                 }); ;
             }
             #endregion

@@ -39,7 +39,7 @@
 	<script type="text/javascript">
 		$(function () {
 			var src = "https://res.cloudinary.com/foodwebsite/image/upload/v1661958526/noImage_myeez6.jpg"; //替換的圖片
-			if ('@Model.ImageBase64' == '')
+			if ('@Model.ImageUrl' == '')
 			{
 				document.getElementById('image_@Model.Id').src = src;
 			}
@@ -148,7 +148,6 @@
 											@Html.TextBoxFor(m => m.Price, new { @class = "form-control", @type = "number" })
 										</div>
 									</div>
-
 								</div>
 								<div class="row mb-3">
 									<label for="inputNumber" class="col-sm-2 col-form-label">
@@ -169,8 +168,7 @@
 											<thead>
 												<tr>
 													<td>
-														<img id="image_@Model.Id" src="@Model.ImageBase64" onerror="nofind()" style="max-width:300px" />
-														@Html.HiddenFor(p => p.ImageUrl)
+														<img id="image_@Model.Id" src="@Model.ImageUrl" onerror="nofind()" style="max-width:300px" />
 														<img id="preview" style="max-height:200px;" src="@ViewBag.Image" />
 													</td>
 												</tr>
@@ -181,6 +179,15 @@
 												</tr>
 											</thead>
 										</table>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="inputText" class="col-sm-2 col-form-label">
+										@*商品圖片Url*@
+										@Html.DisplayNameFor(m => m.ImageUrl)
+									</label>
+									<div class="col-sm-10">
+										@Html.TextBoxFor(m => m.ImageUrl, new { @class = "form-control" })
 									</div>
 								</div>
 								<div class="row mb-3">
