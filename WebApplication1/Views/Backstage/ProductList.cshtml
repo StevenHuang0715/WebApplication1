@@ -6,21 +6,16 @@
 @section Scripts{
 	<script type="text/javascript">
 		function Edit(prod) {
+			debugger;
 			var form = document.getElementById('form0');
-			form.action = '/BackStage/EditProduct';
+			form.action = '../Backstage/EditProduct';
 			var id = prod.value;
 			$('#ProdId').val(id);
 			return true;
 		}
-
-		function Delete1(prod) {
-
-			$('#ProdId').val(prod.value);
-		}
-
-		function Delete2() {
+		function Delete() {
 			var form = document.getElementById('form0');
-			form.action = '/BackStage/DelProduct';
+			form.action = '../Backstage/DelProduct';
 			var id = $('#ProdId').val();
 			$('#ProdId').val(id);
 			form.submit();
@@ -78,11 +73,10 @@
 													<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal_@Model.Products[i].Id">
 														顯示描述
 													</button>
-
 													<button type="submit" class="btn btn-warning" onclick="return Edit(this);" value="@Model.Products[i].Id">修改</button>
-													<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal_Confirm" onclick="return Delete1(this)" value="@Model.Products[i].Id">
+													@*<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal_Confirm" onclick="return Delete1(this)" value="@Model.Products[i].Id">
 														刪除
-													</button>
+													</button>*@
 												</td>
 											</tr>
 										}
@@ -124,9 +118,8 @@
 					<div class="modal-header">
 						<h3 class="modal-title" id="ModalLabe">確定刪除嗎</h3>
 					</div>
-
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="Delete2()">確定</button>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="Delete()">確定</button>
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
 					</div>
 				</div>

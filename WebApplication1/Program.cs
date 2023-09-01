@@ -7,14 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<YummyDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("YummyDb")));
-
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
-{
-    //未登入時會自動導到這個網址
-    option.LoginPath = new PathString("/Backstage/LoginPage1");
-});
+builder.Services.AddDbContext<Stevenhuang1027SampleDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("Stevenhuang1027SampleDB")));
 
 var app = builder.Build();
 

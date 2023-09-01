@@ -1,29 +1,21 @@
-﻿using Google.Apis.Auth.OAuth2;
-using Google.Apis.Services;
-using Google.Apis.Sheets.v4;
-using Google.Apis.Sheets.v4.Data;
-using Google.Apis.Util.Store;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 using WebApplication1.Models;
-using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.AspNetCore.Http;
 
 namespace WebApplication1.Controllers
 {
-    [Authorize]
     public class BackstageController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly YummyDbContext _dbContext;
+        private readonly Stevenhuang1027SampleDbContext _dbContext;
 
-        public BackstageController(ILogger<HomeController> logger, YummyDbContext dbContext)
+        public BackstageController(ILogger<HomeController> logger, Stevenhuang1027SampleDbContext dbContext)
         {
             _logger = logger;
             _dbContext = dbContext;
@@ -31,7 +23,6 @@ namespace WebApplication1.Controllers
 
         public IActionResult Index()
         {
-            LoginModel allAccounts = Utility.getLoginModel();
             return View();
         }
 
@@ -118,58 +109,12 @@ namespace WebApplication1.Controllers
         /// 登入頁
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
         public IActionResult LoginPage1()
         {
-
             return View();
         }
-
-        [AllowAnonymous]
-        [HttpPost]
-        public IActionResult Login(string Usr, string Pwd)
-        {
-            try
-            {
-                LoginModel LoginModel = Utility.getLoginModel();
-                LoginInfo? member = LoginModel.allAccts.SingleOrDefault(p => p.Username == Usr);
-                bool match = false;
-                if (member != null)
-                {
-                    match = member.Password == Pwd;
-                    if (match)
-                    {
-                        //驗證
-                        var claims = new List<Claim>
-                        {
-                            new Claim(ClaimTypes.Name, Usr),
-                            new Claim("FullName", Usr),
-                           // new Claim(ClaimTypes.Role, "Administrator")
-                        };
-                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                        return View("Index");
-                    }
-                }
-
-                return View("LoginPage1");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public IActionResult Logout()
-        {
-            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return View("LoginPage1");
-        }
-
-
-
     }
 }
 
 //更新資料庫指令：
-//Scaffold-DbContext "Server=YummyDb.mssql.somee.com;Database=YummyDb;User ID=steven35741_SQLLogin_1;Password=91s79tpezy;TrustServerCertificate=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Force
+//Scaffold-DbContext "Server=sql.bsite.net\MSSQL2016;Database=stevenhuang1027_SampleDB;User ID=stevenhuang1027_SampleDB;Password=DBSamplePW;TrustServerCertificate=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Force

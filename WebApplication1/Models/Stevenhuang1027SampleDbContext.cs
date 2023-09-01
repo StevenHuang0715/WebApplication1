@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication1.Models;
 
-public partial class YummyDbContext : DbContext
+public partial class Stevenhuang1027SampleDbContext : DbContext
 {
-    public YummyDbContext()
+    public Stevenhuang1027SampleDbContext()
     {
     }
 
-    public YummyDbContext(DbContextOptions<YummyDbContext> options)
+    public Stevenhuang1027SampleDbContext(DbContextOptions<Stevenhuang1027SampleDbContext> options)
         : base(options)
     {
     }
@@ -26,21 +26,21 @@ public partial class YummyDbContext : DbContext
     {
         modelBuilder.Entity<Gallery>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Gallerie__3214EC078421A3F7");
+            entity.HasKey(e => e.Id).HasName("PK__Gallerie__3214EC0762899F4B");
 
             entity.Property(e => e.ImageUrl).HasMaxLength(200);
         });
 
         modelBuilder.Entity<Group>(entity =>
         {
-            entity.HasKey(e => e.GroupId).HasName("PK__Groups__149AF36A3F2CC542");
+            entity.HasKey(e => e.GroupId).HasName("PK__Groups__149AF36AC6533827");
 
-            entity.Property(e => e.GroupName).HasMaxLength(30);
+            entity.Property(e => e.GroupName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Products__3214EC0791A7783C");
+            entity.HasKey(e => e.Id).HasName("PK__Products__3214EC07D1764C05");
 
             entity.Property(e => e.Desc).HasMaxLength(100);
             entity.Property(e => e.ImageUrl).HasMaxLength(200);

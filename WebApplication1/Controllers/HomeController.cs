@@ -7,9 +7,9 @@ namespace WebApplication1.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly YummyDbContext _dbContext;
+        private readonly Stevenhuang1027SampleDbContext _dbContext;
        
-        public HomeController(ILogger<HomeController> logger, YummyDbContext dbContext)
+        public HomeController(ILogger<HomeController> logger, Stevenhuang1027SampleDbContext dbContext)
         {
             _logger = logger;
             _dbContext = dbContext;
