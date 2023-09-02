@@ -104,6 +104,64 @@ namespace WebApplication1.Controllers
             }
         }
 
+        public IActionResult AddProduct()
+        {
+            AddProductModel model = new AddProductModel();
+            model.Groups = new List<SelectListItem>();
+            foreach (Group group in _dbContext.Groups)
+            {
+                model.Groups.Add(new SelectListItem()
+                {
+                    Text = group.GroupName,
+                    Value = group.GroupId.ToString()
+                });
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult AddProduct02(AddProductModel Model)
+        {
+            try
+            {
+                Product prod = new Product()
+                {
+                    Name = Model.Name,
+                    Desc = Model.Desc,
+                    GroupId = Model.GroupId,
+                    Price = Model.Price,
+                    Stock = Model.Stock,
+                    ImageUrl = Model.ImageUrl
+                };
+
+                _dbContext.Products.Add(prod);
+                _dbContext.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View("AddProduct02");
+        }
+
+        [HttpPost]
+        public IActionResult DelProduct(int ProdId)
+        {
+            try
+            {
+                Product? delProd = _dbContext.Products.SingleOrDefault(p => p.Id == ProdId);
+                if (delProd != null)
+                {
+                    _dbContext.Remove(delProd);
+                    _dbContext.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return RedirectToAction("ProductList");
+        }
 
         /// <summary>
         /// 登入頁

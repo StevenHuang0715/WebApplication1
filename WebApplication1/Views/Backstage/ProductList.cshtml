@@ -6,12 +6,14 @@
 @section Scripts{
 	<script type="text/javascript">
 		function Edit(prod) {
-			debugger;
 			var form = document.getElementById('form0');
 			form.action = '../Backstage/EditProduct';
 			var id = prod.value;
 			$('#ProdId').val(id);
 			return true;
+		}
+		function Delete1(prod) {
+			$('#ProdId').val(prod.value);
 		}
 		function Delete() {
 			var form = document.getElementById('form0');
@@ -30,9 +32,8 @@
 			<h1>Data Tables</h1>
 			<nav>
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-					<li class="breadcrumb-item">Tables</li>
-					<li class="breadcrumb-item active">Data</li>
+					<li class="breadcrumb-item"><a href="index.html">後台</a></li>
+					<li class="breadcrumb-item active">商品列表</li>
 				</ol>
 			</nav>
 		</div><!-- End Page Title -->
@@ -74,9 +75,9 @@
 														顯示描述
 													</button>
 													<button type="submit" class="btn btn-warning" onclick="return Edit(this);" value="@Model.Products[i].Id">修改</button>
-													@*<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal_Confirm" onclick="return Delete1(this)" value="@Model.Products[i].Id">
+													<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal_Confirm" onclick="return Delete1(this);" value="@Model.Products[i].Id">
 														刪除
-													</button>*@
+													</button>
 												</td>
 											</tr>
 										}

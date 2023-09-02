@@ -1,0 +1,141 @@
+﻿@model WebApplication1.Models.AddProductModel
+@{
+    ViewData["Title"] = "Add Product Page";
+    Layout = "_LayoutBackstage";
+}
+
+@section Scripts{
+	<script type="text/javascript">
+
+		function ValidateAdd() {
+			var name = $('#Name').val().trim();
+			var price = $('#Price').val().trim();
+			var groupId = $('#GroupId').val().trim();
+
+			if (name == undefined || name == "") {
+				alert('請輸入商品名稱！');
+				return false;
+			}
+			if (price == undefined || price == "") {
+				alert('請輸入商品價格！');
+				return false;
+			}
+			if (groupId == undefined || groupId == "") {
+				alert('請選擇商品類別！');
+				return false;
+			}
+			return true;
+		}
+
+		$('#cancel').click(function () {
+			var form = document.getElementById('form0');
+			form.action = "./BackStage/index";
+			form.submit();
+		})
+	</script>
+}
+
+<h2>AddProductPage</h2>
+
+<body>
+	<main id="main" class="main">
+		<div class="pagetitle">
+			<h1>新增商品</h1>
+			<nav>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="index.html">後台</a></li>
+					<li class="breadcrumb-item active">新增商品</li>
+				</ol>
+			</nav>
+		</div><!-- End Page Title -->
+
+		<section class="section">
+			<div class="row">
+				<div class="card">
+					<div class="card-body" id="ProductContent">
+						<h5 class="card-title">商品資訊</h5>
+						<form asp-action="AddProduct02" asp-controller="Backstage"
+							data-ajax="true"
+							data-ajax-method="POST"
+							data-ajax-mode="replace"
+							data-ajax-update="#ProductContent">
+
+								<div class="col-lg-12">
+								<div class="row mb-3">
+									<label for="inputText" class="col-sm-2 col-form-label">
+										@*商品名稱*@
+										@Html.DisplayNameFor(m => m.Name)
+									</label>
+									<div class="col-sm-10">
+										@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label class="col-sm-2 col-form-label">
+										@*商品種類*@
+										@Html.DisplayNameFor(m => m.GroupId)
+									</label>
+									<div class="col-sm-10">
+										@Html.DropDownListFor(m => m.GroupId, Model.Groups, "請選擇種類", new { @class = "form-select" })
+									</div>
+								</div>
+								<div class="row">
+									<label for="inputNumber" class="col-sm-2 col-form-label">
+										@*定價*@
+										@Html.DisplayNameFor(m => m.Price)
+									</label>
+									<div class="col-sm-10">
+										<div class="input-group mb-3">
+											<span class="input-group-text">$</span>
+											@Html.TextBoxFor(m => m.Price, new { @class = "form-control", @type = "number" })
+										</div>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="inputNumber" class="col-sm-2 col-form-label">
+										@*庫存*@
+										@Html.DisplayNameFor(m => m.Stock)
+									</label>
+									<div class="col-sm-10">
+										@Html.TextBoxFor(m => m.Stock, new { @class = "form-control", @type = "number" })
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="inputNumber" class="col-sm-2 col-form-label">
+										@*商品網址*@
+										@Html.DisplayNameFor(m => m.ImageUrl)
+									</label>
+									<div class="col-sm-10">
+										@Html.TextBox("Image1", "", new { @class = "form-control", type = "file" })
+										@Html.TextBoxFor(m => m.ImageUrl, new { @class = "form-control" })
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="inputNumber" class="col-sm-2 col-form-label">
+										@*商品描述*@
+										商品描述
+									</label>
+									<div class="col-sm-10">
+										@Html.TextAreaFor(m => m.Desc, new { @class = "form-control" })
+									</div>
+								</div>
+							</div>
+
+							@*按鈕*@
+							<div class="col-sm-12" style="text-align: center; ">
+								<button type="submit" class="btn btn-primary" onclick="return ValidateAdd();">新增</button>
+								<button type="button" class="btn btn-warning" id="cancel">取消</button>
+								<button type="reset" class="btn btn-dark">清除</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+
+	</main><!-- End #main -->
+
+	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+</body>
