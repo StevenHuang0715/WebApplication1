@@ -33,12 +33,15 @@
         public int? Stock { get; set; }
 
         public string? ImageUrl { get; set; }
-    }
 
-    public class ViewModelGalleries
+		public string? ImageString { get; set; }
+	}
+
+	public class ViewModelGalleries
     {
         public int? Orders { get; set; }
 
         public string? ImageUrl { get; set; }
-    }
+		public string? ImageString { get; set; }
+	}
 }

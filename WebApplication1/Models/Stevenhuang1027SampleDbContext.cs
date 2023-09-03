@@ -28,6 +28,7 @@ public partial class Stevenhuang1027SampleDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__Gallerie__3214EC0762899F4B");
 
+            entity.Property(e => e.Image).HasColumnType("image");
             entity.Property(e => e.ImageUrl).HasMaxLength(200);
         });
 
@@ -43,6 +44,7 @@ public partial class Stevenhuang1027SampleDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__Products__3214EC07D1764C05");
 
             entity.Property(e => e.Desc).HasMaxLength(100);
+            entity.Property(e => e.Image).HasColumnType("image");
             entity.Property(e => e.ImageUrl).HasMaxLength(200);
             entity.Property(e => e.Name).HasMaxLength(50);
         });

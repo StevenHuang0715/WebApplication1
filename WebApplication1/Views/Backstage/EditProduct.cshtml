@@ -39,7 +39,8 @@
 	<script type="text/javascript">
 		$(function () {
 			var src = "https://res.cloudinary.com/foodwebsite/image/upload/v1661958526/noImage_myeez6.jpg"; //替換的圖片
-			if ('@Model.ImageUrl' == '')
+		
+			if ( '@Model.ImageString' == '')
 			{
 				document.getElementById('image_@Model.Id').src = src;
 			}
@@ -74,6 +75,7 @@
 					form.submit();
                 },
 				error: function (jqXHR, textStatus, errorThrown) {
+					$('#loading').css("display", "none");
 					console.log("FAIL: " + errorThrown);
 					alert('出錯');
 				},
@@ -112,10 +114,9 @@
 				<div class="card">
 					<div class="card-body" id="ProductContent">
 						<h5 class="card-title">商品資訊</h5>
-						@using (Html.BeginForm("ProductList", "BackStage"
-							,FormMethod.Post, new { id = "postForm", enctype = "multipart/form-data" }))
+						@using (Html.BeginForm("ProductList", "BackStage",
+							FormMethod.Post, new { id = "postForm", enctype = "multipart/form-data" }))
 						{
-							@*左半邊區塊*@
 							@Html.HiddenFor(p => p.Id)
 							<div class="col-lg-12">
 								<div class="row mb-3">
@@ -168,26 +169,18 @@
 											<thead>
 												<tr>
 													<td>
-														<img id="image_@Model.Id" src="@Model.ImageUrl" onerror="nofind()" style="max-width:300px" />
-														<img id="preview" style="max-height:200px;" src="@ViewBag.Image" />
+														<img id="image_@Model.Id" src="@Model.ImageString" onerror="nofind()" style="max-width:300px" />
+														<img id="preview" src="@ViewBag.Image" style="max-width:300px" />
 													</td>
 												</tr>
 												<tr>
 													<td>
-														@Html.TextBox("myimg", "", new { @class = "form-control", type = "file" })
+														@Html.TextBox("chgImg", "", new { @class = "form-control", type = "file" })
+														@Html.HiddenFor(m => m.Image)
 													</td>
 												</tr>
 											</thead>
 										</table>
-									</div>
-								</div>
-								<div class="row mb-3">
-									<label for="inputText" class="col-sm-2 col-form-label">
-										@*商品圖片Url*@
-										@Html.DisplayNameFor(m => m.ImageUrl)
-									</label>
-									<div class="col-sm-10">
-										@Html.TextBoxFor(m => m.ImageUrl, new { @class = "form-control" })
 									</div>
 								</div>
 								<div class="row mb-3">

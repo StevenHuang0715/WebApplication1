@@ -10,4 +10,6 @@ public partial class Gallery
     public int? Order { get; set; }
 
     public string? ImageUrl { get; set; }
+
+    public byte[]? Image { get; set; }
 }

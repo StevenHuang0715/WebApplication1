@@ -30,7 +30,6 @@ namespace WebApplication1.Controllers
                     GroupName = item.GroupName
                 });
             }
-
             #endregion
 
             #region 組合商品
@@ -40,16 +39,16 @@ namespace WebApplication1.Controllers
             {
                 Group? group = _dbContext.Groups.SingleOrDefault(p => p.GroupId == product.GroupId);
                 model.Products.Add(new ViewModelProduct()
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Desc = product.Desc,
-                    GroupId = product.GroupId,
-                    GroupName = group?.GroupName,
-                    Price = product.Price,
-                    Stock = product.Stock,
-                    ImageUrl = product.ImageUrl,
-                }); ;
+				{
+					Id = product.Id,
+					Name = product.Name,
+					Desc = product.Desc,
+					GroupId = product.GroupId,
+					GroupName = group?.GroupName,
+					Price = product.Price,
+					Stock = product.Stock,
+					ImageString = Utility.ToBase64Image(product.Image)
+				});
             }
             #endregion
 
@@ -62,8 +61,8 @@ namespace WebApplication1.Controllers
                     new ViewModelGalleries()
                     {
                         Orders = gallery.Order,
-                        ImageUrl = gallery.ImageUrl
-                    });
+                        ImageString = Utility.ToBase64Image(gallery.Image)
+					});
             }
             #endregion
 

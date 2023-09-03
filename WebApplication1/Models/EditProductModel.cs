@@ -16,7 +16,9 @@ namespace WebApplication1.Models
 
         public int? Stock { get; set; }
 
-        public string? ImageUrl { get; set; }
+        public byte[]? Image { get; set; }
+
+        public string? ImageString { get; set; }
 
         public List<SelectListItem>? Groups { get; set; }
     }

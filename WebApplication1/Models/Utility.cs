@@ -5,10 +5,14 @@ namespace WebApplication1.Models
 {
     public static class Utility
     {
-        #region google API http://white5168.blogspot.com/2016/09/google-sheets-api-google-spreadsheet.html#.WL0Jnfl97IW
-
-
-        
-        #endregion
+        public static string ToBase64Image(byte[]? data)
+        {
+            string imageStr = string.Empty;
+            if (data != null)
+            {
+                imageStr = "data:image/png;base64," + Convert.ToBase64String(data);
+			}
+            return imageStr;
+        }        
     }
 }

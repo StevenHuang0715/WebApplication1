@@ -24,6 +24,7 @@
 				alert('請選擇商品類別！');
 				return false;
 			}
+
 			return true;
 		}
 
@@ -54,11 +55,8 @@
 				<div class="card">
 					<div class="card-body" id="ProductContent">
 						<h5 class="card-title">商品資訊</h5>
-						<form asp-action="AddProduct02" asp-controller="Backstage"
-							data-ajax="true"
-							data-ajax-method="POST"
-							data-ajax-mode="replace"
-							data-ajax-update="#ProductContent">
+						<form asp-action="AddProduct02" asp-controller="Backstage" 
+							method="post" enctype="multipart/form-data" >
 
 								<div class="col-lg-12">
 								<div class="row mb-3">
@@ -103,12 +101,11 @@
 								</div>
 								<div class="row mb-3">
 									<label for="inputNumber" class="col-sm-2 col-form-label">
-										@*商品網址*@
-										@Html.DisplayNameFor(m => m.ImageUrl)
+										@*商品圖片*@
+										@Html.DisplayNameFor(m => m.Image)
 									</label>
 									<div class="col-sm-10">
-										@Html.TextBox("Image1", "", new { @class = "form-control", type = "file" })
-										@Html.TextBoxFor(m => m.ImageUrl, new { @class = "form-control" })
+										@Html.TextBoxFor(m => m.Image, new { @class = "form-control-file", @type = "file"})
 									</div>
 								</div>
 								<div class="row mb-3">
@@ -124,7 +121,7 @@
 
 							@*按鈕*@
 							<div class="col-sm-12" style="text-align: center; ">
-								<button type="submit" class="btn btn-primary" onclick="return ValidateAdd();">新增</button>
+								<button type="submit" class="btn btn-primary" >新增</button>
 								<button type="button" class="btn btn-warning" id="cancel">取消</button>
 								<button type="reset" class="btn btn-dark">清除</button>
 							</div>

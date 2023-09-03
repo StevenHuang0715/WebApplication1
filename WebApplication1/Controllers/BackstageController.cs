@@ -7,6 +7,7 @@ using System.Security.Claims;
 using WebApplication1.Models;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication1.Controllers
 {
@@ -44,7 +45,7 @@ namespace WebApplication1.Controllers
                     GroupName = group?.GroupName,
                     Price = product.Price,
                     Stock = product.Stock,
-                    ImageUrl = product.ImageUrl
+                    ImageString = Utility.ToBase64Image(product.Image)
                 });
             }
             #endregion
@@ -60,8 +61,9 @@ namespace WebApplication1.Controllers
             model.Desc = product.Desc;
             model.Price = product.Price;
             model.Stock = product.Stock;
-            model.ImageUrl = product.ImageUrl;
             model.GroupId = product.GroupId;
+            model.Image = product.Image;
+            model.ImageString = product.Image != null ? Utility.ToBase64Image(product.Image) : "";
 
             List<Group> GroupList = _dbContext.Groups.ToList();
             model.Groups = new List<SelectListItem>();
@@ -73,13 +75,12 @@ namespace WebApplication1.Controllers
                     Value = group.GroupId.ToString()
                 });
             }
-
             return View(model);
         }
 
 
         [HttpPost]
-        public IActionResult EditProductPage02(EditProductModel Model, IFormFile myimg)
+        public IActionResult EditProductPage02(EditProductModel Model, IFormFile chgImg)
         {
             try
             {
@@ -90,11 +91,26 @@ namespace WebApplication1.Controllers
                     Desc = Model.Desc,
                     GroupId = Model.GroupId,
                     Price = Model.Price,
-                    Stock = Model.Stock,
-                    ImageUrl = Model.ImageUrl
+                    Stock = Model.Stock
                 };
 
-                _dbContext.Products.Update(updateProd);
+                using (MemoryStream ms = new())
+                {
+                    if (chgImg != null)
+                    {
+						chgImg.CopyTo(ms);
+						updateProd.Image = ms.ToArray();
+					}
+                    else
+                    {
+                        if (Model.Image != null)
+                        {
+                            updateProd.Image = Model.Image;
+						}
+					}
+				}
+
+				_dbContext.Products.Update(updateProd);
                 _dbContext.SaveChanges();
                 return RedirectToAction("ProductList");
             }
@@ -130,9 +146,15 @@ namespace WebApplication1.Controllers
                     Desc = Model.Desc,
                     GroupId = Model.GroupId,
                     Price = Model.Price,
-                    Stock = Model.Stock,
-                    ImageUrl = Model.ImageUrl
+                    Stock = Model.Stock
                 };
+
+                if (Model.Image != null)
+                {
+                    using MemoryStream ms = new MemoryStream();
+                    Model.Image.CopyTo(ms);
+                    prod.Image = ms.ToArray();
+                }
 
                 _dbContext.Products.Add(prod);
                 _dbContext.SaveChanges();
