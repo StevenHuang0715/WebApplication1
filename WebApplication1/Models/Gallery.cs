@@ -12,4 +12,6 @@ public partial class Gallery
     public string? ImageUrl { get; set; }
 
     public byte[]? Image { get; set; }
+
+    public bool? IsShow { get; set; }
 }

@@ -43,5 +43,10 @@
 
         public string? ImageUrl { get; set; }
 		public string? ImageString { get; set; }
-	}
+
+        /// <summary>
+        /// 0：不顯示，1：顯示
+        /// </summary>
+        public string? Show { get; set; }
+    }
 }

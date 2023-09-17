@@ -185,11 +185,84 @@ namespace WebApplication1.Controllers
             return RedirectToAction("ProductList");
         }
 
-        /// <summary>
-        /// 登入頁
-        /// </summary>
-        /// <returns></returns>
-        public IActionResult LoginPage1()
+        public IActionResult GalleryList()
+        {
+            List<EditGalleryModel> model = new List<EditGalleryModel>();
+            var GalList = _dbContext.Galleries.ToList();
+            foreach (var item in GalList)
+            {
+                model.Add(new EditGalleryModel
+                {
+                    Id = item.Id,
+                    Image = item.Image,
+                    Order = item.Order,
+                    ImageString = Utility.ToBase64Image(item.Image),
+                    Show = item.IsShow == true ? "1" : "0"
+                });
+            }
+
+            return View(model);
+        }
+
+		[HttpPost]
+		public IActionResult EditGallery(int GalId)
+		{
+			Gallery? editGal = _dbContext.Galleries.SingleOrDefault(g => g.Id == GalId);
+
+            EditGalleryModel model = new()
+            {
+                Id = editGal.Id,
+                Order = editGal.Order,
+                Image = editGal.Image,
+                Show = editGal.IsShow == true ? "1" : "0"
+            };
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public IActionResult EditGallery02(EditGalleryModel Model, IFormFile chgImg)
+		{
+			try
+			{
+                Gallery updateGal = new()
+                {
+                    Id = Model.Id,
+                    Order = Model.Order,
+                    IsShow = Model.Show == "1"
+                };
+
+				using (MemoryStream ms = new())
+				{
+					if (chgImg != null)
+					{
+						chgImg.CopyTo(ms);
+						updateGal.Image = ms.ToArray();
+					}
+					else
+					{
+						if (Model.Image != null)
+						{
+							updateGal.Image = Model.Image;
+						}
+					}
+				}
+
+				_dbContext.Galleries.Update(updateGal);
+				_dbContext.SaveChanges();
+				return RedirectToAction("GalleryList");
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		/// <summary>
+		/// 登入頁
+		/// </summary>
+		/// <returns></returns>
+		public IActionResult LoginPage1()
         {
             return View();
         }

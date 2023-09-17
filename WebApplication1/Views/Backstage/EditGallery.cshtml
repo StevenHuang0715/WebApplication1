@@ -1,0 +1,174 @@
+﻿@model WebApplication1.Models.EditGalleryModel
+@{
+    ViewData["Title"] = "Edit Gallery Page";
+    Layout = "_LayoutBackstage";
+}
+@section Styles{
+	<style>
+		/*等待中遮罩樣式*/
+		div.loadingdiv {
+			height: 100%;
+			width: 100%;
+			/*100%覆蓋網頁內容, 避免user在loading時進行其他操作*/
+			position: fixed;
+			z-index: 99999;
+			/*須大於網頁內容*/
+			top: 0;
+			left: 0;
+			display: block;
+			background: #000;
+			opacity: 0.6;
+			text-align: center;
+		}
+
+			div.loadingdiv img {
+				position: relative;
+				vertical-align: middle;
+				text-align: center;
+				margin: 0 auto;
+				margin-top: 50vh;
+			}
+	</style>
+}
+
+@section Scripts{
+	<script type="text/javascript">
+		$(function() {
+			if("@Model.Show"=="1")
+				$("#btnYes").prop("checked", true);
+			else
+				$("#btnNo").prop("checked", true);
+		})
+
+		$("#EditGallery").click(function () {
+			var formData = new FormData($("#postForm")[0]);
+			$.ajax({
+				beforeSend: function () {
+					$('#loading').css("display", "");
+				},
+				type: "POST",
+				url: '@Url.Action("EditGallery02", "BackStage")',
+				data: formData,
+				async: true,
+				cache: false,
+				processData: false,
+				contentType: false,
+				success: function () {
+					$('#loading').css("display", "none");
+					alert("更新圖片成功");
+					var form = document.getElementById('postForm');
+					form.submit();
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					$('#loading').css("display", "none");
+					console.log("FAIL: " + errorThrown);
+					alert('出錯');
+				},
+			})
+			return false;
+		})
+
+		function nofind() {
+			var img = event.srcElement;
+			img.src = "https://res.cloudinary.com/foodwebsite/image/upload/v1661046639/icsopr6ywly533sl1gus.jpg"; //替換的圖片
+			img.onerror = null; //控制不要一直觸發錯誤
+		}
+	</script>
+}
+
+<h2>Edit Gallery Page</h2>
+<main id="main" class="main">
+	@* 等待中圖片 *@
+	<div class="loadingdiv" id="loading" style="display: none;padding: 15% 0;">
+		<div style="color: yellow;font-size: 35px;">更新商品中...</div>
+		<img src="https://res.cloudinary.com/foodwebsite/image/upload/v1661958361/load_xa8m4u.gif" style="margin-top: 0px;" />
+	</div>
+	<div class="pagetitle">
+		<h1>修改商品</h1>
+		<nav>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+				<li class="breadcrumb-item">Forms</li>
+				<li class="breadcrumb-item active">Elements</li>
+			</ol>
+		</nav>
+	</div><!-- End Page Title -->
+
+	<section class="section">
+		<div class="row">
+			<div class="card">
+				<div class="card-body" id="ProductContent">
+					<h5 class="card-title">商品資訊</h5>
+					@using (Html.BeginForm("GalleryList", "BackStage",
+							FormMethod.Post, new { id = "postForm", enctype = "multipart/form-data" }))
+					{
+						@Html.HiddenFor(p => p.Id)
+						<div class="col-lg-12">
+							<div class="row mb-3">
+								<label for="myimg" class="col-sm-2 col-form-label">
+									@*商品圖片*@
+									商品圖片
+								</label>
+								<div class="col-sm-10">
+									<table style="width:100%">
+										<thead>
+											<tr>
+												<td>
+													<img id="image_@Model.Id" src="@Model.ImageString" onerror="nofind()" style="max-width:300px" />
+													<img id="preview" src="@ViewBag.Image" style="max-width:300px" />
+												</td>
+											</tr>
+											<tr>
+												<td>
+													@Html.TextBox("chgImg", "", new { @class = "form-control", type = "file" })
+													@Html.HiddenFor(m => m.Image)
+												</td>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
+							<div class="row">
+								<label for="Order" class="col-sm-2 col-form-label">
+									@*排序*@
+									@Html.DisplayNameFor(m => m.Order)
+								</label>
+								<div class="col-sm-10">
+									<div class="input-group mb-3">
+										@Html.TextBoxFor(m => m.Order, new { @class = "form-control", @type = "number" })
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<label for="Order" class="col-sm-2 col-form-label">
+									@*是否顯示*@
+									@Html.DisplayNameFor(m => m.Show)
+								</label>
+								<div class="col-sm-10">
+									<div class="form-check">
+										<label class="form-check-label" for="btnYes">是</label>
+										<input class="form-check-input" id="btnYes" name="Show" type="radio" value="1">
+									</div>
+									<div class="form-check">
+										<label class="form-check-label" for="btnNo">否</label>
+										<input class="form-check-input" id="btnNo" name="Show" type="radio" value="0">
+									</div>
+								</div>
+							</div>
+						</div>
+
+						@*按鈕*@
+						<div class="col-sm-12" style="text-align: center; ">
+							<input id="EditGallery" type="submit" class="btn btn-primary" value="修改" />
+							<button type="submit" class="btn btn-primary" id="cancel">取消</button>
+							<button type="submit" class="btn btn-primary">清除</button>
+						</div>
+					}
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+</main>

@@ -171,11 +171,14 @@
           <div class="swiper-wrapper align-items-center">
             @foreach(ViewModelGalleries galItem in Model.Galleries)
             {
-                <div class="swiper-slide">
-                    <a class="glightbox" data-gallery="images-gallery" href="@galItem.ImageString">
-                        <img src="@galItem.ImageString" class="img-fluid" alt="">
-                    </a>
-                </div>
+                if(galItem.Show == "1")
+                {
+                    <div class="swiper-slide">
+                        <a class="glightbox" data-gallery="images-gallery" href="@galItem.ImageString">
+                            <img src="@galItem.ImageString" class="img-fluid" alt="">
+                        </a>
+                    </div>      
+                }
             }
           </div>
           <div class="swiper-pagination"></div>

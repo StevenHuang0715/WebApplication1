@@ -61,8 +61,9 @@ namespace WebApplication1.Controllers
                     new ViewModelGalleries()
                     {
                         Orders = gallery.Order,
-                        ImageString = Utility.ToBase64Image(gallery.Image)
-					});
+                        ImageString = Utility.ToBase64Image(gallery.Image),
+                        Show = (bool)gallery.IsShow ? "1" : "0"
+                    });
             }
             #endregion
 

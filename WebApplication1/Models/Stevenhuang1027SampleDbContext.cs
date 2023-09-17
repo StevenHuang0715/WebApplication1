@@ -15,6 +15,8 @@ public partial class Stevenhuang1027SampleDbContext : DbContext
     {
     }
 
+    public virtual DbSet<CustomRole> CustomRoles { get; set; }
+
     public virtual DbSet<Gallery> Galleries { get; set; }
 
     public virtual DbSet<Group> Groups { get; set; }
@@ -24,12 +26,21 @@ public partial class Stevenhuang1027SampleDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<CustomRole>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_dbo.CustomRoles");
+
+            entity.Property(e => e.Id).HasMaxLength(128);
+            entity.Property(e => e.Name).HasMaxLength(256);
+        });
+
         modelBuilder.Entity<Gallery>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Gallerie__3214EC0762899F4B");
 
             entity.Property(e => e.Image).HasColumnType("image");
             entity.Property(e => e.ImageUrl).HasMaxLength(200);
+            entity.Property(e => e.IsShow).HasColumnName("isShow");
         });
 
         modelBuilder.Entity<Group>(entity =>
