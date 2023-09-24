@@ -8,6 +8,8 @@ using WebApplication1.Models;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 namespace WebApplication1.Controllers
 {
@@ -15,11 +17,13 @@ namespace WebApplication1.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly Stevenhuang1027SampleDbContext _dbContext;
+        private readonly Cloudinary _cloudinary;
 
-        public BackstageController(ILogger<HomeController> logger, Stevenhuang1027SampleDbContext dbContext)
+        public BackstageController(ILogger<HomeController> logger, Stevenhuang1027SampleDbContext dbContext, Cloudinary cloudinary)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _cloudinary = cloudinary;
         }
 
         public IActionResult Index()
@@ -100,13 +104,27 @@ namespace WebApplication1.Controllers
                     {
 						chgImg.CopyTo(ms);
 						updateProd.Image = ms.ToArray();
-					}
+
+                        //使用cloudinary上傳圖片
+                        ImageUploadParams uploadParams = new ImageUploadParams
+                        {
+                            File = new FileDescription(chgImg.FileName, chgImg.OpenReadStream()),
+                        };
+                        ImageUploadResult uploadResult = _cloudinary.Upload(uploadParams);
+
+                        updateProd.ImageUrl = uploadResult.SecureUrl.ToString();
+                    }
                     else
                     {
                         if (Model.Image != null)
                         {
                             updateProd.Image = Model.Image;
 						}
+
+                        if (Model.ImageUrl != null)
+                        {
+                            updateProd.ImageUrl = Model.ImageUrl;
+                        }
 					}
 				}
 
@@ -154,6 +172,15 @@ namespace WebApplication1.Controllers
                     using MemoryStream ms = new MemoryStream();
                     Model.Image.CopyTo(ms);
                     prod.Image = ms.ToArray();
+
+                    //使用cloudinary上傳圖片
+                    ImageUploadParams uploadParams = new ImageUploadParams
+                    {
+                        File = new FileDescription(Model.Image.FileName, Model.Image.OpenReadStream()),
+                    };
+                    ImageUploadResult uploadResult = _cloudinary.Upload(uploadParams);
+
+                    prod.ImageUrl = uploadResult.SecureUrl.ToString();
                 }
 
                 _dbContext.Products.Add(prod);

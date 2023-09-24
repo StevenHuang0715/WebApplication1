@@ -20,6 +20,9 @@ namespace WebApplication1.Models
 
         public string? ImageString { get; set; }
 
+        public string? ImageUrl{ get; set; }
+
+
         public List<SelectListItem>? Groups { get; set; }
     }
 }

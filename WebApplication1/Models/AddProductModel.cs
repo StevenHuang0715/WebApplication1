@@ -19,5 +19,7 @@ namespace WebApplication1.Models
         public IFormFile? Image { get; set; }
 
         public List<SelectListItem>? Groups { get; set; }
+
+        public string? ImageUrl { get; set; }
     }
 }

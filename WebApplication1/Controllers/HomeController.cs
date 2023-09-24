@@ -39,16 +39,17 @@ namespace WebApplication1.Controllers
             {
                 Group? group = _dbContext.Groups.SingleOrDefault(p => p.GroupId == product.GroupId);
                 model.Products.Add(new ViewModelProduct()
-				{
-					Id = product.Id,
-					Name = product.Name,
-					Desc = product.Desc,
-					GroupId = product.GroupId,
-					GroupName = group?.GroupName,
-					Price = product.Price,
-					Stock = product.Stock,
-					ImageString = Utility.ToBase64Image(product.Image)
-				});
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Desc = product.Desc,
+                    GroupId = product.GroupId,
+                    GroupName = group?.GroupName,
+                    Price = product.Price,
+                    Stock = product.Stock,
+                    ImageString = Utility.ToBase64Image(product.Image),
+                    ImageUrl = product.ImageUrl
+                });
             }
             #endregion
 
