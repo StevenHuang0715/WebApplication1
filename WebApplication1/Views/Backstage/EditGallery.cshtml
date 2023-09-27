@@ -129,6 +129,17 @@
 								</div>
 							</div>
 							<div class="row">
+								<label for="ImageUrl" class="col-sm-2 col-form-label">
+									@*商品圖片Url*@
+									@Html.DisplayNameFor(m => m.ImageUrl)
+								</label>
+								<div class="col-sm-10">
+									<div class="input-group mb-3">
+										@Html.TextBoxFor(m => m.ImageUrl, new { @class = "form-control"})
+									</div>
+								</div>
+							</div>
+							<div class="row">
 								<label for="Order" class="col-sm-2 col-form-label">
 									@*排序*@
 									@Html.DisplayNameFor(m => m.Order)

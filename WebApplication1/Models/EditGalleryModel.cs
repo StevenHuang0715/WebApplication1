@@ -10,6 +10,8 @@
 
         public string? ImageString { get; set; }
 
+        public string? ImageUrl { get; set; }
+
         /// <summary>
         /// 0：不顯示，1：顯示
         /// </summary>

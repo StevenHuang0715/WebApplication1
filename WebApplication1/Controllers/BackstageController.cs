@@ -67,6 +67,7 @@ namespace WebApplication1.Controllers
             model.Stock = product.Stock;
             model.GroupId = product.GroupId;
             model.Image = product.Image;
+            model.ImageUrl = product.ImageUrl;
             model.ImageString = product.Image != null ? Utility.ToBase64Image(product.Image) : "";
 
             List<Group> GroupList = _dbContext.Groups.ToList();
@@ -215,8 +216,8 @@ namespace WebApplication1.Controllers
         public IActionResult GalleryList()
         {
             List<EditGalleryModel> model = new List<EditGalleryModel>();
-            var GalList = _dbContext.Galleries.ToList();
-            foreach (var item in GalList)
+            List<Gallery> GalList = _dbContext.Galleries.ToList();
+            foreach (Gallery? item in GalList)
             {
                 model.Add(new EditGalleryModel
                 {
@@ -224,10 +225,10 @@ namespace WebApplication1.Controllers
                     Image = item.Image,
                     Order = item.Order,
                     ImageString = Utility.ToBase64Image(item.Image),
+                    ImageUrl = item.ImageUrl,
                     Show = item.IsShow == true ? "1" : "0"
                 });
             }
-
             return View(model);
         }
 
@@ -256,7 +257,8 @@ namespace WebApplication1.Controllers
                 {
                     Id = Model.Id,
                     Order = Model.Order,
-                    IsShow = Model.Show == "1"
+                    IsShow = Model.Show == "1",
+                    ImageUrl = Model.ImageUrl
                 };
 
 				using (MemoryStream ms = new())
@@ -265,7 +267,16 @@ namespace WebApplication1.Controllers
 					{
 						chgImg.CopyTo(ms);
 						updateGal.Image = ms.ToArray();
-					}
+
+                        //使用cloudinary上傳圖片
+                        ImageUploadParams uploadParams = new ImageUploadParams
+                        {
+                            File = new FileDescription(chgImg.FileName, chgImg.OpenReadStream()),
+                        };
+                        ImageUploadResult uploadResult = _cloudinary.Upload(uploadParams);
+
+                        updateGal.ImageUrl = uploadResult.SecureUrl.ToString();
+                    }
 					else
 					{
 						if (Model.Image != null)

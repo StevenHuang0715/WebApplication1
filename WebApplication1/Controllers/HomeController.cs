@@ -63,6 +63,7 @@ namespace WebApplication1.Controllers
                     {
                         Orders = gallery.Order,
                         ImageString = Utility.ToBase64Image(gallery.Image),
+                        ImageUrl = gallery.ImageUrl,
                         Show = (bool)gallery.IsShow ? "1" : "0"
                     });
             }

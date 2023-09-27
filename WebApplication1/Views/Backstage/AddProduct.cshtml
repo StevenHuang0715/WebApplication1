@@ -1,16 +1,25 @@
 ﻿@model WebApplication1.Models.AddProductModel
 @{
-    ViewData["Title"] = "Add Product Page";
-    Layout = "_LayoutBackstage";
+	ViewData["Title"] = "Add Product Page";
+	Layout = "_LayoutBackstage";
 }
 
 @section Scripts{
 	<script type="text/javascript">
 
+		$(function () {
+			$('#chkUrl').click(function () {
+				$('#ImageUrl').toggle();
+			})
+		})
+
 		function ValidateAdd() {
 			var name = $('#Name').val().trim();
 			var price = $('#Price').val().trim();
 			var groupId = $('#GroupId').val().trim();
+			var image = $('#Image').val();
+			let confirm = document.querySelector("#chkUrl");
+			var url = $('#ImageUrl').val().trim();
 
 			if (name == undefined || name == "") {
 				alert('請輸入商品名稱！');
@@ -24,15 +33,31 @@
 				alert('請選擇商品類別！');
 				return false;
 			}
-
-			return true;
+			console.log('image :'+ image);
+			console.log('confirm.checked = '+confirm.checked);
+			console.log('url = '+url);
+			
+			if (image == undefined || image == "") {
+				//無選擇圖片檔
+				if (confirm.checked && url != undefined && url != "") {
+					$('#ImageUrl').val(url);
+				}
+				else {
+					alert('請選擇圖片，或是使用Url，若要使用Url，請勾選「使用現有圖片Url」！');
+					return false;
+				}
+			}
+			else {
+				$('#ImageUrl').val('');
+			}
 		}
 
 		$('#cancel').click(function () {
-			var form = document.getElementById('form0');
-			form.action = "./BackStage/index";
+			var form = document.querySelector("form");
+			form.action = "./index";
 			form.submit();
 		})
+
 	</script>
 }
 
@@ -55,10 +80,10 @@
 				<div class="card">
 					<div class="card-body" id="ProductContent">
 						<h5 class="card-title">商品資訊</h5>
-						<form asp-action="AddProduct02" asp-controller="Backstage" 
-							method="post" enctype="multipart/form-data" >
+						<form asp-action="AddProduct02" asp-controller="Backstage"
+							  method="post" enctype="multipart/form-data">
 
-								<div class="col-lg-12">
+							<div class="col-lg-12">
 								<div class="row mb-3">
 									<label for="inputText" class="col-sm-2 col-form-label">
 										@*商品名稱*@
@@ -105,7 +130,27 @@
 										@Html.DisplayNameFor(m => m.Image)
 									</label>
 									<div class="col-sm-10">
-										@Html.TextBoxFor(m => m.Image, new { @class = "form-control-file", @type = "file"})
+										@Html.TextBoxFor(m => m.Image, new { @class = "form-control-file", @type = "file" })
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="inputNumber" class="col-sm-2 col-form-label">
+										@*商品圖片Url*@
+										@Html.DisplayNameFor(m => m.ImageUrl)
+									</label>
+									<span class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox" id="chkUrl" />
+										<label class="form-check-label" for="chkUrl">使用現有圖片Url</label>
+									</span>
+									<div class="col-sm-8">
+										@Html.TextBoxFor(m => m.ImageUrl, new { @class = "form-control", @style = "display:none;" })
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="inputNumber" class="col-sm-2 col-form-label">
+									</label>
+									<div class="col-sm-10 text-primary">
+										<i class="bi bi-info-square-fill"></i>若已上傳圖片，將會以圖片為優先顯示，若無上傳圖片，則會以網址顯示，不可無上傳圖片及無輸入網址。
 									</div>
 								</div>
 								<div class="row mb-3">
@@ -121,7 +166,7 @@
 
 							@*按鈕*@
 							<div class="col-sm-12" style="text-align: center; ">
-								<button type="submit" class="btn btn-primary" >新增</button>
+								<button type="submit" class="btn btn-primary" onclick="return ValidateAdd();">新增</button>
 								<button type="button" class="btn btn-warning" id="cancel">取消</button>
 								<button type="reset" class="btn btn-dark">清除</button>
 							</div>

@@ -44,13 +44,14 @@
 			{
 				document.getElementById('image_@Model.Id').src = src;
 			}
-
+			
 			$('#myimg').on('change', function (e) {
 				const file = this.files[0];
 				const objectURL = URL.createObjectURL(file);    // 使用 createObjectURL 產生圖片url
 				$('#preview').attr('src', objectURL);
 			});
 		})
+
 		//點按修改鍵觸發
 		$("#EditProduct").click(function () {
 			//TODO：檢核欄位
@@ -157,6 +158,15 @@
 									</label>
 									<div class="col-sm-10">
 										@Html.TextBoxFor(m => m.Stock, new { @class = "form-control", @type = "number" })
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="inputNumber" class="col-sm-2 col-form-label">
+										@*商品圖片Url*@
+										商品圖片Url
+									</label>
+									<div class="col-sm-10">
+										@Html.TextAreaFor(m => m.ImageUrl, new { @class = "form-control"})
 									</div>
 								</div>
 								<div class="row mb-3">
