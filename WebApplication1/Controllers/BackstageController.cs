@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using WebApplication1.Services;
 
 namespace WebApplication1.Controllers
 {
@@ -18,12 +19,14 @@ namespace WebApplication1.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly Stevenhuang1027SampleDbContext _dbContext;
         private readonly Cloudinary _cloudinary;
+        private readonly Service _Service;
 
-        public BackstageController(ILogger<HomeController> logger, Stevenhuang1027SampleDbContext dbContext, Cloudinary cloudinary)
+        public BackstageController(ILogger<HomeController> logger, Stevenhuang1027SampleDbContext dbContext, Cloudinary cloudinary, Service productService)
         {
             _logger = logger;
             _dbContext = dbContext;
             _cloudinary = cloudinary;
+            _Service = productService;
         }
 
         public IActionResult Index()
@@ -36,7 +39,7 @@ namespace WebApplication1.Controllers
             ProductListModel model = new ProductListModel();
             #region 組合商品
             model.Products = new List<ViewModelProduct>();
-            List<Product> allProducts = _dbContext.Products.ToList();
+            List<Product> allProducts = _Service.GetAllProducts();
             foreach (Product product in allProducts)
             {
                 Group? group = _dbContext.Groups.SingleOrDefault(p => p.GroupId == product.GroupId);
@@ -131,6 +134,7 @@ namespace WebApplication1.Controllers
 
 				_dbContext.Products.Update(updateProd);
                 _dbContext.SaveChanges();
+                _Service.ClearCache();
                 return RedirectToAction("ProductList");
             }
             catch (Exception)
@@ -186,6 +190,7 @@ namespace WebApplication1.Controllers
 
                 _dbContext.Products.Add(prod);
                 _dbContext.SaveChanges();
+                _Service.ClearCache();
             }
             catch (Exception)
             {
@@ -210,6 +215,7 @@ namespace WebApplication1.Controllers
             {
                 throw;
             }
+            _Service.ClearCache();
             return RedirectToAction("ProductList");
         }
 
@@ -288,7 +294,8 @@ namespace WebApplication1.Controllers
 
 				_dbContext.Galleries.Update(updateGal);
 				_dbContext.SaveChanges();
-				return RedirectToAction("GalleryList");
+                _Service.ClearCache();
+                return RedirectToAction("GalleryList");
 			}
 			catch (Exception)
 			{
@@ -296,11 +303,16 @@ namespace WebApplication1.Controllers
 			}
 		}
 
-		/// <summary>
-		/// 登入頁
-		/// </summary>
-		/// <returns></returns>
-		public IActionResult LoginPage1()
+        public void updateProd()
+        {
+            _Service.ClearCache();
+        }
+
+        /// <summary>
+        /// 登入頁
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult LoginPage1()
         {
             return View();
         }

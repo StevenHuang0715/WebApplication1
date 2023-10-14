@@ -22,6 +22,22 @@
 			$('#ProdId').val(id);
 			form.submit();
 		}
+
+		$("#updateProd").click(function () {
+			$.ajax({
+				url: "@Url.Action("updateProd", "Backstage")", 
+				type: "GET", // 或 "POST"，取決於您的動作
+				success: function (data) {
+					// 在成功時，將返回的資料顯示在容器中
+					alert('成功。');
+				},
+				error: function (xhr, status, error) {
+					// 處理錯誤
+					console.error(error);
+					alert('錯誤。');
+				}
+			});
+		});
 	</script>
 }
 
@@ -46,6 +62,7 @@
 						<div class="card">
 							<div class="card-body">
 								<h5 class="card-title">Datatables</h5>
+								<button id="updateProd">更新商品</button>
 								<p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p>
 
 								<!-- Table with stripped rows -->

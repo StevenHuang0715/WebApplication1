@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebApplication1.Models;
+using WebApplication1.Services;
 
 namespace WebApplication1.Controllers
 {
@@ -8,11 +9,13 @@ namespace WebApplication1.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly Stevenhuang1027SampleDbContext _dbContext;
-       
-        public HomeController(ILogger<HomeController> logger, Stevenhuang1027SampleDbContext dbContext)
+        private readonly Service _Service;
+
+        public HomeController(ILogger<HomeController> logger, Stevenhuang1027SampleDbContext dbContext, Service productService)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _Service = productService;
         }
 
         public IActionResult Index()
@@ -21,7 +24,7 @@ namespace WebApplication1.Controllers
 
             #region 組合類別
             model.Groups = new List<ViewModelGroup>();
-            List<Group> allGroups = _dbContext.Groups.ToList();
+            List<Group> allGroups = _Service.GetAllGroups();
             foreach (Group item in allGroups)
             {
                 model.Groups.Add(new ViewModelGroup()
@@ -34,10 +37,10 @@ namespace WebApplication1.Controllers
 
             #region 組合商品
             model.Products = new List<ViewModelProduct>();
-            List<Product> allProducts = _dbContext.Products.ToList();
+            List<Product> allProducts = _Service.GetAllProducts();
             foreach (Product product in allProducts)
             {
-                Group? group = _dbContext.Groups.SingleOrDefault(p => p.GroupId == product.GroupId);
+                Group? group = _Service.GetAllGroups().SingleOrDefault(p => p.GroupId == product.GroupId);
                 model.Products.Add(new ViewModelProduct()
                 {
                     Id = product.Id,
@@ -47,7 +50,6 @@ namespace WebApplication1.Controllers
                     GroupName = group?.GroupName,
                     Price = product.Price,
                     Stock = product.Stock,
-                    ImageString = Utility.ToBase64Image(product.Image),
                     ImageUrl = product.ImageUrl
                 });
             }
@@ -55,14 +57,13 @@ namespace WebApplication1.Controllers
 
             #region 組合相片圖庫
             model.Galleries = new List<ViewModelGalleries>();
-            List<Gallery> GalList = _dbContext.Galleries.OrderBy(g => g.Order).ToList();
+            List<Gallery> GalList = _Service.GetAllGalleries();
             foreach (Gallery gallery in GalList)
             {
                 model.Galleries.Add(
                     new ViewModelGalleries()
                     {
                         Orders = gallery.Order,
-                        ImageString = Utility.ToBase64Image(gallery.Image),
                         ImageUrl = gallery.ImageUrl,
                         Show = (bool)gallery.IsShow ? "1" : "0"
                     });

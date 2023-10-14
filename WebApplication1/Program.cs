@@ -4,8 +4,15 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using WebApplication1.Models;
+using WebApplication1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// 添加服務配置
+builder.Services.AddTransient<Service>();
+
+// 添加MemoryCache服務
+builder.Services.AddMemoryCache();
 
 // 添加 Cloudinary 配置
 var configuration = new ConfigurationBuilder()
